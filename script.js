@@ -194,6 +194,9 @@ function generateGraph(){
 
         node.on("tap", () => {
 
+            if (hintedVertices.includes(Number(node.id()))) {
+                return;
+            }
             // Remove previous validation highlights
             node.style({
                 "border-color": "black",
