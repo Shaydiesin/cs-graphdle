@@ -1,57 +1,18 @@
+// Cytospace
 let cy;
-let rng = Math.random;
+
+let currentGraph = null;
 
 // Global solution hint
-let solutionMatching = [];
 let hintedVertices = [];
 let hintUsed = false;
 
-const today = new Date().toISOString().slice(0, 10);
-const seed = xmur3(today);
-rng = mulberry32(seed());
-
-// Hashing the Seed
-function xmur3(str) {
-    let h = 1779033703 ^ str.length;
-
-    for (let i = 0; i < str.length; i++) {
-        h = Math.imul(h ^ str.charCodeAt(i), 3432918353);
-        h = (h << 13) | (h >>> 19);
-    }
-
-    return function () {
-        h = Math.imul(h ^ (h >>> 16), 2246822507);
-        h = Math.imul(h ^ (h >>> 13), 3266489909);
-        return (h ^= h >>> 16) >>> 0;
-    };
-}
-
-function mulberry32(a) {
-    return function () {
-        let t = a += 0x6D2B79F5;
-        t = Math.imul(t ^ (t >>> 15), t | 1);
-        t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-    };
-}
 
 // Graph generator
-function generateGraph(){
+function generatePMCGraph(){
 
     const p = randomInt(5,10);
     const n = 2*p;
-
-    let elements=[];
-
-    // vertices
-    for(let i=0;i<n;i++){
-        elements.push({
-            data:{
-                id:String(i),
-                label:String(i+1)
-            }
-        });
-    }
 
     // ---------- Generate Perfect Matching Cut Graph ----------
 
@@ -117,104 +78,43 @@ function generateGraph(){
     let perm = [...Array(n).keys()];
     shuffle(perm);
 
-    // Convert edges into Cytoscape elements
-    edges.forEach(([u,v]) => {
+    let graph = {
 
-        elements.push({
-            data:{
-                source:String(perm[u]),
-                target:String(perm[v])
-            }
+        vertices: [],
+
+        edges: [],
+
+        solution: []
+
+    };
+
+    // Vertices
+    for (let i = 0; i < n; i++) {
+
+        graph.vertices.push({
+            id: i,
+            label: String(i + 1)
         });
+
+    }
+
+    // Edges
+    edges.forEach(([u, v]) => {
+
+        graph.edges.push([
+            perm[u],
+            perm[v]
+        ]);
 
     });
 
-    let permutedMatching = matching.map(([u,v]) => [
+    // Solution
+    graph.solution = matching.map(([u, v]) => [
         perm[u],
         perm[v]
     ]);
 
-    solutionMatching = permutedMatching;
-
-
-    if(cy){
-        cy.destroy();
-    }
-
-    cy = cytoscape({
-
-        container:document.getElementById("cy"),
-
-        elements:elements,
-
-        style:[
-
-            {
-                selector:'node',
-                style:{
-                    'background-color':'white',
-                    'border-width':2,
-                    'border-color':'black',
-                    'label':'data(label)',
-                    'text-valign':'center',
-                    'text-margin-y': 2,
-                    'color':'black',
-                    'width':35,
-                    'height':35,
-
-                    'font-family': 'Nunito',
-                    'font-size': 16,
-                    'font-weight': '700'
-                }
-            },
-
-            {
-                selector:'edge',
-                style:{
-                    'width':2,
-                    'line-color':'#555'
-                }
-            }
-
-        ],
-
-        layout: {
-            name: 'cose',
-            fit: true,
-            padding: 50,
-            animate: true
-        }
-
-    });
-
-    // Color cycling
-    cy.nodes().forEach(node=>{
-
-        node.data("state",0);
-
-        node.on("tap", () => {
-
-            if (hintedVertices.includes(Number(node.id()))) {
-                return;
-            }
-            // Remove previous validation highlights
-            node.style({
-                "border-color": "black",
-                "border-width": 2
-            });
-
-            let state = (node.data("state") + 1) % 3;
-            node.data("state", state);
-
-            updateNodeColor(node);
-
-        });
-
-    });
-
-    cy.resize();
-    cy.fit();
-
+    return graph;
 
 }
 
@@ -287,7 +187,7 @@ function validatePMC() {
 }
 
 // Reset functionality
-function resetGraph() {
+function resetPMCGraph() {
 
     // Reset all nodes
     cy.nodes().forEach(node => {
@@ -297,19 +197,6 @@ function resetGraph() {
         node.data("state", 0);
         updateNodeColor(node);
     });
-}
-
-// Helper Shuffle FIsher Yates
-function shuffle(arr){
-
-    for(let i=arr.length-1;i>0;i--){
-
-        let j=Math.floor(rng()*(i+1));
-
-        [arr[i],arr[j]]=[arr[j],arr[i]];
-    }
-
-    return arr;
 }
 
 // Helper Update the color of node
@@ -332,27 +219,6 @@ function updateNodeColor(node) {
 
 }
 
-// Helper to generate graph
-function randomInt(a,b){
-    return Math.floor(rng()*(b-a+1))+a;
-}
-
-// Function to get puzzle number
-function getPuzzleNumber() {
-
-    const today = new Date();
-
-    // Ignore the time of day
-    today.setHours(0, 0, 0, 0);
-
-    const launch = new Date("2026-07-17");
-    launch.setHours(0, 0, 0, 0);
-
-    const diff = today - launch;
-
-    return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
-}
-
 // Function to show hint
 function showHint() {
 
@@ -361,8 +227,8 @@ function showHint() {
 
     hintUsed = true;
 
-    let [u, v] = solutionMatching[
-        Math.floor(rng() * solutionMatching.length)
+    let [u, v] = currentGraph.solution[
+        Math.floor(rng() * currentGraph.solution.length)
     ];
 
     cy.$(`edge[source="${u}"][target="${v}"],
@@ -385,6 +251,31 @@ function showHint() {
     updateNodeColor(nodeV);
 }
 
+// To initialize PMC
+function initializePMC(cy) {
+
+    cy.nodes().forEach(node => {
+
+        node.data("state", 0);
+
+        node.on("tap", () => {
+
+            if (hintedVertices.includes(Number(node.id())))
+                return;
+
+            node.style({
+                "border-color": "black",
+                "border-width": 2
+            });
+
+            let state = (node.data("state") + 1) % 3;
+            node.data("state", state);
+
+            updateNodeColor(node);
+        });
+    });
+}
+
 ////////////////////////
 /////////MAIN///////////
 ////////////////////////
@@ -393,7 +284,7 @@ const launchDate = new Date("2026-07-17");
 
 // Code to display puzzle number
 document.getElementById("title").textContent =
-    "CS-Graphdle #" + getPuzzleNumber();
+    "CS-Graphdle PMC #" + getPuzzleNumber();
 
 const today_date = new Date();
 
@@ -405,9 +296,12 @@ document.getElementById("date").textContent =
         day: "numeric"
     });
 
-generateGraph();
+currentGraph = generatePMCGraph();
+drawGraph(currentGraph);
+initializePMC();
 
 window.addEventListener("resize", () => {
     cy.resize();
     cy.fit();
 });
+

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>CS Graphdle</title>
+
+    <link rel="stylesheet" href="../style.css">
+
+    <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-VHSH1HPYKV');
+    </script>
+</head>
+<body>
+
+
+
+<div class="container">
+
+    <div class="back-link">
+        <a href="../index.html">← Back to Home</a>
+    </div>
+
+    <h1 id="title"></h1>
+    <h4 id="date"></h4>
+
+    <h2 id="problem-title">Find a Perfect Matching Cut</h2>
+
+    <div id="instructions">
+        <p>
+            Color each vertex <span style="color:red;">red</span> or
+            <span style="color:dodgerblue;">blue</span> so that
+            <strong>every vertex has exactly one neighbor of the opposite color.</strong>
+        </p>
+
+        <p>
+            Click a vertex to cycle through
+            ⚪ → 🔴 → 🔵.
+            When you're done, press <strong>Check</strong>.
+        </p>
+    </div>
+
+    <div id="graph-container">
+        <div id="cy"></div>
+    </div>
+
+    <div id="controls">
+        <button onclick="validatePMC()">Check</button>
+        <button onclick="resetPMCGraph()">Reset</button>
+        <button onclick="showHint()">Hint</button>
+    </div>
+
+
+    <hr>
+
+    <section id="about">
+    
+        <p class="fun-note">
+            <strong>Why "CS-Graphdle"?</strong>
+            We wanted to call it <em>Graphdle</em>, but that name was already taken by a
+            puzzle about plotting mathematical functions rather than graph-theoretic
+            graphs. Computer scientists have been overloading the word <em>graph</em>
+            for decades, so <strong>CS-Graphdle</strong> it is.
+        </p>
+
+        <h3>Reference</h3>
+
+        <p>
+            1) Neeldhara Misra, Yash More.
+            <em>Finding Perfect Matching Cuts Faster.</em>
+            Combinatorial Algorithms (IWOCA 2023),
+            Springer, pp. 307–318.
+        </p>
+    </section>
+
+</div>
+
+<script src="../js/common.js"></script>
+<script src="../js/pmc.js"></script>
+
+</body>
+</html>

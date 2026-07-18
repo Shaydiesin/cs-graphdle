@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+
     <meta charset="UTF-8">
-    <title>CS Graphdle</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CS-Graphdle</title>
 
     <link rel="stylesheet" href="style.css">
 
-    <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
@@ -20,78 +24,130 @@
     gtag('config', 'G-VHSH1HPYKV');
     </script>
 </head>
+
 <body>
 
 <div class="container">
 
-    <h1 id="title"></h1>
-    <h4 id="date"></h4>
+    <h1>CS-Graphdle</h1>
 
-    <h2 id="problem-title">Find a Perfect Matching Cut</h2>
+    <p class="subtitle">
+        Daily graph-theory puzzles inspired by research in theoretical computer science.
+    </p>
 
-    <div id="instructions">
-        <p>
-            Color each vertex <span style="color:red;">red</span> or
-            <span style="color:dodgerblue;">blue</span> so that
-            <strong>every vertex has exactly one neighbor of the opposite color.</strong>
-        </p>
+    <p class="tagline">
+        New research-inspired graph puzzles every day.
+    </p>
 
-        <p>
-            Click a vertex to cycle through
-            ⚪ → 🔴 → 🔵.
-            When you're done, press <strong>Check</strong>.
-        </p>
+    <hr>
+
+    <div class="puzzle-grid">
+
+        <a href="puzzle/pmc.html" class="puzzle-card">
+
+            <h2>✂️ Perfect Matching Cut</h2>
+
+            <div class="graph-icon">
+                <svg width="120" height="100" viewBox="0 0 120 80">
+
+                    <!-- edges -->
+                    <line x1="20" y1="40" x2="100" y2="10" stroke="#555" stroke-width="2"/>
+                    
+                    <line x1="20" y1="10" x2="20" y2="70" stroke="#555" stroke-width="2"/>
+                    <line x1="20" y1="10" x2="100" y2="40" stroke="#555" stroke-width="2"/>
+                    <line x1="100" y1="10" x2="100" y2="70" stroke="#555" stroke-width="2"/>
+
+                    <line x1="20" y1="70" x2="100" y2="70" stroke="#555" stroke-width="2"/>
+
+                    <!-- nodes -->
+                    <circle cx="20" cy="10" r="8" fill="red" stroke="black"/>
+                    <circle cx="100" cy="10" r="8" fill="dodgerblue" stroke="black"/>
+
+                    <circle cx="20" cy="40" r="8" fill="red" stroke="black"/>
+                    <circle cx="100" cy="40" r="8" fill="dodgerblue" stroke="black"/>
+
+                    <circle cx="20" cy="70" r="8" fill="red" stroke="black"/>
+                    <circle cx="100" cy="70" r="8" fill="dodgerblue" stroke="black"/>
+
+                </svg>
+            </div>
+
+            <p>
+                Color the graph so every vertex has exactly one opposite-colored neighbor.
+            </p>
+
+            <!-- <a class="play-button" href="puzzle/pmc.html">
+                Play Today's Puzzle
+            </a> -->
+        </a>
+
+        <div class="puzzle-card disabled">
+
+            <h2>🦠 Hull Set</h2>
+
+            <p>
+                Infect the entire graph.
+            </p>
+
+            <button disabled>Coming Soon</button>
+
+        </div>
+
+        <div class="puzzle-card disabled">
+
+            <h2>🧩 More Research Puzzles</h2>
+
+            <p>
+                New daily challenges coming soon...
+            </p>
+
+            <button disabled>Stay Tuned</button>
+
+        </div>
+
     </div>
-
-    <div id="graph-container">
-        <div id="cy"></div>
-    </div>
-
-    <div id="controls">
-        <button onclick="validatePMC()">Check</button>
-        <button onclick="resetGraph()">Reset</button>
-        <button onclick="showHint()">Hint</button>
-    </div>
-
 
     <hr>
 
     <section id="about">
+
         <h2>About CS-Graphdle</h2>
 
         <p>
-            CS-Graphdle is a daily puzzle based on the
-            <strong>Perfect Matching Cut</strong> problem in graph theory.
+            CS-Graphdle is a collection of daily puzzles based on
+            beautiful problems from graph theory and theoretical computer science.
         </p>
 
         <p>
-            Your goal is to color every vertex red or blue so that every
-            vertex has exactly one neighbor of the opposite color.
+            Every puzzle introduces a different graph concept through
+            interactive gameplay.
         </p>
-
-        
 
         <p class="fun-note">
             <strong>Why "CS-Graphdle"?</strong>
-            We wanted to call it <em>Graphdle</em>, but that name was already taken by a
-            puzzle about plotting mathematical functions rather than graph-theoretic
-            graphs. Computer scientists have been overloading the word <em>graph</em>
-            for decades, so <strong>CS-Graphdle</strong> it is.
+            We wanted to call it <em>Graphdle</em>, but that name was already taken by
+            a puzzle about plotting mathematical functions rather than graph-theoretic
+            graphs. Computer scientists have been overloading the word
+            <em>graph</em> for decades, so <strong>CS-Graphdle</strong> it is.
         </p>
 
-        <!-- <h3>Reference</h3>
-
-        <p>
-            1) Neeldhara Misra, Yash More.
-            <em>Finding Perfect Matching Cuts Faster.</em>
-            Combinatorial Algorithms (IWOCA 2023),
-            Springer, pp. 307–318.
-        </p> -->
-</section>
+    </section>
 
 </div>
 
-<script src="script.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/pmc.js"></script>
 
 </body>
+
+<footer>
+
+    <hr>
+
+    <p>
+        Made by <strong>Shaydiesin</strong>
+    </p>
+
+</footer>
+
 </html>
