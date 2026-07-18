@@ -252,7 +252,7 @@ function showHint() {
 }
 
 // To initialize PMC
-function initializePMC(cy) {
+function initializePMC() {
 
     cy.nodes().forEach(node => {
 
