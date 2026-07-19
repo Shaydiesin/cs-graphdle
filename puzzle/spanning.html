@@ -33,32 +33,50 @@
     <h1 id="title"></h1>
     <h4 id="date"></h4>
 
-    <h2 id="problem-title">Find a Perfect Matching Cut</h2>
+    <h2 id="problem-title">Find the Hidden Spanning Tree</h2>
 
     <div id="instructions">
-        <p>
-            Color each vertex <span style="color:red;">red</span> or
-            <span style="color:dodgerblue;">blue</span> so that
-            <strong>every vertex has exactly one neighbor of the opposite color.</strong>
-        </p>
 
-        <p>
-            Click a vertex to cycle through
-            ⚪ → 🔴 → 🔵.
-            When you're done, press <strong>Check</strong>.
-        </p>
+    <p>
+        Select <strong>exactly <span id="tree-size"></span> edges</strong> to form a spanning tree.
+    </p>
+
+    <p>
+        After each guess you'll learn:
+        <strong>✓ Correct edges</strong> and
+        <strong>🟢 Correct vertices</strong>.
+    </p>
+
+</div>
+
+    <div class="spanning-layout">
+
+        <div class="spanning-game">
+
+            <div id="graph-container">
+                <div id="cy"></div>
+            </div>
+
+            <div id="controls">
+                <button onclick="checkGuess()">Check</button>
+                <button onclick="resetSpan()">Reset</button>
+            </div>
+
+        </div>
+
+        <aside class="spanning-history">
+
+            <div class="spanning-history-header">
+                Guess History
+            </div>
+
+            <div id="spanning-guess-history"></div>
+
+        </aside>
+
     </div>
 
-    <div id="graph-container">
-        <div id="cy"></div>
-    </div>
-
-    <div id="controls">
-        <button onclick="validatePMC()">Check</button>
-        <button onclick="resetPMCGraph()">Reset</button>
-        <button onclick="showHint()">Hint</button>
-    </div>
-
+    
 
     <hr>
 
@@ -71,26 +89,16 @@
             graphs. Computer scientists have been overloading the word <em>graph</em>
             for decades, so <strong>CS-Graphdle</strong> it is.
         </p>
-
-        <h3>Reference</h3>
-
-        <p>
-            1) Neeldhara Misra, Yash More.
-            <em>Finding Perfect Matching Cuts Faster.</em>
-            Combinatorial Algorithms (IWOCA 2023),
-            Springer, pp. 307–318.
-        </p>
     </section>
 
 </div>
 
 <script src="../js/common.js"></script>
-<script src="../js/pmc.js"></script>
+<script src="../js/spanning.js"></script>
 
 </body>
 
 <footer>
-
     <hr>
 
     <p>
@@ -98,4 +106,5 @@
     </p>
 
 </footer>
+
 </html>

@@ -1,3 +1,7 @@
+// Cytospace
+let cy;
+
+
 let rng = Math.random;
 
 const today = new Date().toISOString().slice(0, 10);
@@ -92,8 +96,10 @@ function drawGraph(graph){
             {
                 selector:'edge',
                 style:{
-                    'width':2,
-                    'line-color':'#555'
+                    'width': 4,
+                    'line-color': '#555',
+                    'events': 'yes',
+                    'overlay-padding': 5
                 }
             }
 
@@ -132,14 +138,14 @@ function randomInt(a,b){
 }
 
 // Function to get puzzle number
-function getPuzzleNumber() {
+function getPuzzleNumber(launch) {
 
     const today = new Date();
 
     // Ignore the time of day
     today.setHours(0, 0, 0, 0);
 
-    const launch = new Date("2026-07-17");
+    
     launch.setHours(0, 0, 0, 0);
 
     const diff = today - launch;

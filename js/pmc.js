@@ -1,5 +1,3 @@
-// Cytospace
-let cy;
 
 let currentGraph = null;
 
@@ -280,11 +278,11 @@ function initializePMC() {
 /////////MAIN///////////
 ////////////////////////
 
-const launchDate = new Date("2026-07-17");
+const launchDatePMC = new Date("2026-07-17");
 
 // Code to display puzzle number
 document.getElementById("title").textContent =
-    "CS-Graphdle PMC #" + getPuzzleNumber();
+    "CS-Graphdle PMC #" + getPuzzleNumber(launchDatePMC);
 
 const today_date = new Date();
 
