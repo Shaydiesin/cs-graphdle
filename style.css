@@ -483,3 +483,25 @@ footer hr{
     visibility: visible;
     opacity: 1;
 }
+
+
+#tree-size{
+
+    color:#2563eb;
+
+    font-weight:700;
+
+}
+
+
+#selection-status{
+
+    text-align:center;
+
+    margin:12px 0;
+
+    font-size:1.1rem;
+
+    font-weight:700;
+
+}

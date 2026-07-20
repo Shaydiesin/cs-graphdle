@@ -7,6 +7,8 @@ function generateSpanningGraph(){
 
     const n = randomInt(8,15);
 
+    // const n = 8;
+
     // ---------- Generate Random Tree ----------
     let order = [...Array(n).keys()];
     shuffle(order);
@@ -107,6 +109,7 @@ function initializeEdges(){
         edge.data("selected", false);
 
         updateEdgeStyle(edge);
+        updateSelectedCount();
 
         edge.on("tap", () => {
 
@@ -115,8 +118,8 @@ function initializeEdges(){
                 "selected",
                 !edge.data("selected")
             );
-
             updateEdgeStyle(edge);
+            updateSelectedCount();
 
         });
 
@@ -241,6 +244,7 @@ function resetSpan(){
         updateEdgeStyle(edge);
 
     });
+    updateSelectedCount();
 
 }
 
@@ -419,7 +423,17 @@ function renderSpanningHistory(){
     });
 
 }
+// Display Tree Size
 
+function updateTreeSize(){
+
+    const size = spanGraph.vertices.length - 1;
+
+    document.querySelectorAll(".tree-size").forEach(el => {
+        el.textContent = size;
+    });
+
+}
 
 // Mini Spanning Graph
 function drawMiniSpanGraph(containerId, guess){
@@ -558,6 +572,30 @@ function drawMiniSpanGraph(containerId, guess){
 
 }
 
+
+// Update selected count
+function updateSelectedCount(){
+
+    const count = cy.edges().filter(edge => edge.data("selected")).length;
+
+    const span =
+        document.getElementById("selected-count");
+
+    span.textContent = count;
+
+    const target = cy.nodes().length - 1;
+
+    if(count < target)
+        span.style.color = "#e67e22";
+
+    else if(count === target)
+        span.style.color = "#16a34a";
+
+    else
+        span.style.color = "#dc2626";
+
+}
+
 ////////////////////////
 /////////MAIN///////////
 ////////////////////////
@@ -581,7 +619,10 @@ document.getElementById("date").textContent =
     });
 
 spanGraph = generateSpanningGraph();
+
 drawGraph(spanGraph);
+updateTreeSize();
+
 initializeEdges();
 
 window.addEventListener("resize", () => {
