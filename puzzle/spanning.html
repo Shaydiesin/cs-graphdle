@@ -62,19 +62,22 @@
             </div>
 
             <div id="controls">
+                 <div id="selection-status">
+
+                    Selected:
+                    <span id="selected-count"></span>
+                    /
+                    <span class="tree-size"></span>
+
+                </div>
+
                 <button onclick="checkGuess()">Check</button>
                 <button onclick="resetSpan()">Reset</button>
+
+                
             </div>
 
-            <div id="selection-status">
-
-                Selected:
-                <span id="selected-count"></span>
-                /
-                <span class="tree-size"></span>
-
-            </div>
-
+           
         </div>
 
         
@@ -91,6 +94,9 @@
 
     </div>
 
+    <div id="span-hover-preview">
+        <div id="span-hover-cy"></div>
+    </div>
     
 
     <hr>

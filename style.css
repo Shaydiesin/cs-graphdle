@@ -496,12 +496,79 @@ footer hr{
 
 #selection-status{
 
-    text-align:center;
+    text-align:left;
 
     margin:12px 0;
 
     font-size:1.1rem;
 
     font-weight:700;
+
+}
+
+
+#span-hover-preview{
+
+    position:fixed;
+
+    width:420px;
+
+    height:420px;
+
+    background:white;
+
+    border:2px solid #ccc;
+
+    border-radius:12px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+
+    display:none;
+
+    z-index:1000;
+
+    pointer-events:none;
+
+}
+
+#span-hover-cy{
+
+    width:100%;
+
+    height:100%;
+
+}
+
+#span-hover-preview{
+
+    position:fixed;
+
+    top:80px;
+
+    right:30px;
+
+    width:420px;
+
+    height:420px;
+
+    background:white;
+
+    border:2px solid #ccc;
+
+    border-radius:12px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+
+    display:none;
+
+    z-index:1000;
+
+}
+
+#span-hover-cy{
+
+    width:100%;
+
+    height:100%;
 
 }

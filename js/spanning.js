@@ -1,7 +1,7 @@
 let spanGraph = null;
 let guessHistory = [];
 let maxGuesses = 20;
-
+let hoverCy = null;
 
 function generateSpanningGraph(){
 
@@ -107,9 +107,10 @@ function initializeEdges(){
     cy.edges().forEach(edge => {
 
         edge.data("selected", false);
-
+        edge.data("cycle",false);
         updateEdgeStyle(edge);
         updateSelectedCount();
+        updateCycleHighlights();
 
         edge.on("tap", () => {
 
@@ -120,8 +121,142 @@ function initializeEdges(){
             );
             updateEdgeStyle(edge);
             updateSelectedCount();
+            updateCycleHighlights();
 
         });
+
+    });
+
+}
+
+// Update Cycle Highlights
+function updateCycleHighlights(){
+
+    // Reset
+    cy.edges().forEach(edge=>{
+        edge.data("cycle",false);
+    });
+
+    //---------------------------------------------------------
+    // Build adjacency
+    //---------------------------------------------------------
+
+    const adj = {};
+
+    cy.nodes().forEach(node=>{
+        adj[node.id()] = [];
+    });
+
+    cy.edges().forEach(edge=>{
+
+        if(!edge.data("selected"))
+            return;
+
+        const u = edge.source().id();
+        const v = edge.target().id();
+
+        adj[u].push({
+            to:v,
+            edge:edge
+        });
+
+        adj[v].push({
+            to:u,
+            edge:edge
+        });
+
+    });
+
+    //---------------------------------------------------------
+    // Tarjan
+    //---------------------------------------------------------
+
+    let timer = 0;
+
+    const tin = {};
+    const low = {};
+    const visited = {};
+
+    function dfs(v,parentEdge){
+
+        visited[v] = true;
+
+        tin[v] = low[v] = timer++;
+
+        for(const nxt of adj[v]){
+
+            const to = nxt.to;
+
+            if(parentEdge === nxt.edge)
+                continue;
+
+            if(visited[to]){
+
+                low[v] = Math.min(
+                    low[v],
+                    tin[to]
+                );
+
+                // Back edge => always part of a cycle
+                if (visited[to] && tin[to] < tin[v]) {
+                    nxt.edge.data("cycle", true);
+                }
+
+            }else{
+
+                dfs(to,nxt.edge);
+
+                low[v] = Math.min(
+                    low[v],
+                    low[to]
+                );
+
+                //------------------------------------------------
+                // Bridge test
+                //------------------------------------------------
+
+                if(low[to] > tin[v]){
+
+                    // Bridge
+
+                    nxt.edge.data(
+                        "cycle",
+                        false
+                    );
+
+                }else{
+
+                    // Not bridge
+
+                    nxt.edge.data(
+                        "cycle",
+                        true
+                    );
+
+                }
+
+            }
+
+        }
+
+    }
+
+    //---------------------------------------------------------
+
+    cy.nodes().forEach(node=>{
+
+        if(!visited[node.id()])
+            dfs(node.id(),null);
+
+    });
+
+    //---------------------------------------------------------
+    // Update styles
+    //---------------------------------------------------------
+
+    cy.edges().forEach(edge=>{
+
+        updateEdgeStyle(edge);
 
     });
 
@@ -130,19 +265,28 @@ function initializeEdges(){
 // Helper to update the appearance of an edge
 function updateEdgeStyle(edge){
 
-    if(edge.data("selected")){
+    if(!edge.data("selected")){
 
         edge.style({
-            "line-color": "dodgerblue",
-            "width": 4
+            "line-color":"#888",
+            "width":2
         });
 
+        return;
     }
-    else{
+
+    if(edge.data("cycle")){
 
         edge.style({
-            "line-color": "#555",
-            "width": 2
+            "line-color":"#d32f2f",
+            "width":4
+        });
+
+    }else{
+
+        edge.style({
+            "line-color":"dodgerblue",
+            "width":4
         });
 
     }
@@ -245,6 +389,7 @@ function resetSpan(){
 
     });
     updateSelectedCount();
+    updateCycleHighlights();
 
 }
 
@@ -420,11 +565,27 @@ function renderSpanningHistory(){
             guess
         );
 
+        // ------------------------
+        // Hover preview
+        // ------------------------
+
+        card.addEventListener("mouseenter", () => {
+
+            showLargeGuess(guess);
+
+        });
+
+        card.addEventListener("mouseleave", () => {
+
+            hideLargeGuess();
+
+        });
+
     });
 
 }
-// Display Tree Size
 
+// Display Tree Size
 function updateTreeSize(){
 
     const size = spanGraph.vertices.length - 1;
@@ -499,7 +660,7 @@ function drawMiniSpanGraph(containerId, guess){
 
     // ---------- Mini Cytoscape ----------
 
-    cytoscape({
+    const miniCy = cytoscape({
 
         container:document.getElementById(containerId),
 
@@ -570,6 +731,10 @@ function drawMiniSpanGraph(containerId, guess){
 
     });
 
+    miniCy.fit(20);
+
+    return miniCy;
+
 }
 
 
@@ -593,6 +758,38 @@ function updateSelectedCount(){
 
     else
         span.style.color = "#dc2626";
+
+}
+
+// Helper function to show
+function showLargeGuess(guess){
+
+    const popup =
+        document.getElementById("span-hover-preview");
+
+    popup.style.display = "block";
+
+    if(hoverCy){
+
+        hoverCy.destroy();
+
+        hoverCy = null;
+
+    }
+
+    hoverCy = drawMiniSpanGraph(
+        "span-hover-cy",
+        guess
+    );
+
+}
+
+// Helper Function to Hide
+function hideLargeGuess(){
+
+    document.getElementById(
+        "span-hover-preview"
+    ).style.display="none";
 
 }
 
