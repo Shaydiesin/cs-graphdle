@@ -44,14 +44,32 @@
         </span>.
     </p>
 
-
-    <p>
-        After each guess you'll learn:
-        <strong>✓ Correct edges</strong> and
-        <strong>🟢 Correct vertices</strong>.
-    </p>
-
 </div>
+
+<details id="feedback-guide">
+
+    <summary>How to Read the Feedback</summary>
+
+    <ul>
+
+        <li>
+            <strong>✓ Correct Edges</strong> —
+            Number of selected edges that belong to the hidden spanning tree.
+        </li>
+
+        <li>
+            <strong>🟢 Green Vertices</strong> —
+            Every hidden tree edge incident to that vertex has been correctly selected.
+        </li>
+
+        <li>
+            <strong>🔴 Red Edges</strong> —
+            These edges belong to one or more cycles. A spanning tree cannot contain cycles.
+        </li>
+
+    </ul>
+
+</details>
 
     <div class="spanning-layout">
 
