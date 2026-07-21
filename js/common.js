@@ -96,7 +96,7 @@ function drawGraph(graph){
             {
                 selector:'edge',
                 style:{
-                    'width': 4,
+                    'width': 2,
                     'line-color': '#555',
                     'events': 'yes',
                     'overlay-padding': 5

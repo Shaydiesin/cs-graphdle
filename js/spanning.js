@@ -7,7 +7,7 @@ function generateSpanningGraph(){
 
     const n = randomInt(8,15);
 
-    // const n = 8;
+    // const n = 2;
 
     // ---------- Generate Random Tree ----------
     let order = [...Array(n).keys()];
