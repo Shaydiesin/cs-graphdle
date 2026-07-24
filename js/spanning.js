@@ -5,7 +5,7 @@ let hoverCy = null;
 
 function generateSpanningGraph(){
 
-    const n = randomInt(8,15);
+    const n = randomInt(12,16);
 
     // const n = 2;
 
