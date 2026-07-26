@@ -2,6 +2,7 @@ let spanGraph = null;
 let guessHistory = [];
 let maxGuesses = 20;
 let hoverCy = null;
+let spanningSolved = false;
 
 function generateSpanningGraph(){
 
@@ -493,6 +494,9 @@ function scoreGuess(){
 // Check Guess 
 function checkGuess(){
 
+    if (spanningSolved)
+        return;
+
     if(!validateSpan())
         return;
 
@@ -503,12 +507,14 @@ function checkGuess(){
     renderSpanningHistory();
 
     if (feedback.correctEdges === cy.nodes().length - 1) {
+        spanningSolved = true;
         recordGamePlayed("spanning");
         recordGameWon("spanning", guessHistory.length);
 
         completeDailyPuzzle("spanning");
 
         alert("🎉 You found the hidden spanning tree!");
+        celebrateWin();
         return;
     }
 

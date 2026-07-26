@@ -5,6 +5,7 @@ let currentGraph = null;
 let hintedVertices = [];
 let hintUsed = false;
 let pmcAttempts = 0;
+let pmcSolved = false;
 
 // Graph generator
 function generatePMCGraph(){
@@ -119,6 +120,9 @@ function generatePMCGraph(){
 // Validation function to check the solution
 function validatePMC() {
 
+    if (pmcSolved)
+        return;
+
     pmcAttempts++;
 
     // Check every vertex is colored
@@ -178,12 +182,13 @@ function validatePMC() {
     });
 
     if (valid) {
+        pmcSolved = true;
         alert("🎉 Perfect Matching Cut Found!");
         recordGamePlayed("pmc");
         recordGameWon("pmc", pmcAttempts);
 
         completeDailyPuzzle("pmc");
-        
+        celebrateWin();
         
     } else {
         alert("❌ Invalid Perfect Matching Cut.");
@@ -330,29 +335,7 @@ document.getElementById("date").textContent =
     });
 
 if (hasCompletedToday("pmc")) {
-
-    document.getElementById("cy").innerHTML = `
-        <div class="completed-message">
-            <div class="completed-icon">🎉</div>
-
-            <h2>Puzzle Complete!</h2>
-
-            <p class="completed-text">
-                You have already solved today's
-                <strong>Perfect Matching Cut</strong> puzzle.
-            </p>
-
-            <p class="completed-subtext">
-                Come back tomorrow for a brand new challenge.
-            </p>
-
-            <div class="completed-countdown">
-                <span id="countdown"></span>
-            </div>
-        </div>
-    `;
-    updateCountdown();
-
+    showCompletedMessage("pmc");
 } else {
 
     pmcAttempts = 0;
