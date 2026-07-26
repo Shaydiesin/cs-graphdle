@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CS-Graphdle</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHSH1HPYKV"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-VHSH1HPYKV');
+    </script>
+</head>
+
+<body>
+
+<nav class="top-nav">
+    <a href="index.html">🏠 Home</a>
+</nav>
+
+
+<div class="container">
+
+    <h1>📊 Statistics</h1>
+
+    <p class="subtitle">
+        Your CS-Graphdle progress.
+    </p>
+
+    <hr>
+
+    <section class="stats-section">
+
+        <h2>Streaks</h2>
+
+        <p>🔥 Current Streak:
+            <strong><span id="current-streak">0</span></strong>
+        </p>
+
+        <p>🏆 Longest Streak:
+            <strong><span id="longest-streak">0</span></strong>
+        </p>
+
+    </section>
+
+    <hr>
+
+    <section class="stats-section">
+
+        <h2>🌳 Spanning Tree</h2>
+
+        <p>Games Played:
+            <strong><span id="span-played">0</span></strong>
+        </p>
+
+        <p>Games Won:
+            <strong><span id="span-won">0</span></strong>
+        </p>
+
+        <p>Average Guesses:
+            <strong><span id="span-avg">0</span></strong>
+        </p>
+
+        <!-- <p>Win Rate:
+            <strong><span id="span-rate">0</span>%</strong>
+        </p> -->
+
+    </section>
+
+    <hr>
+
+    <section class="stats-section">
+
+        <h2>🔗 Perfect Matching Cut</h2>
+
+        <p>Games Played:
+            <strong><span id="pmc-played">0</span></strong>
+        </p>
+
+        <p>Games Won:
+            <strong><span id="pmc-won">0</span></strong>
+        </p>
+
+        <p>Win Rate:
+            <strong><span id="pmc-rate">0</span>%</strong>
+        </p>
+
+    </section>
+
+    <hr>
+
+    <p style="text-align:center;">
+        <a href="index.html">← Back to Home</a>
+    </p>
+
+</div>
+
+<script src="js/utils.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", loadStatistics);
+</script>
+
+</body>
+
+<footer>
+
+    <hr>
+
+    <p>
+        Made by <strong>Shaydiesin</strong>
+    </p>
+
+</footer>
+
+</html>

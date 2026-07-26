@@ -4,7 +4,7 @@ let currentGraph = null;
 // Global solution hint
 let hintedVertices = [];
 let hintUsed = false;
-
+let pmcAttempts = 0;
 
 // Graph generator
 function generatePMCGraph(){
@@ -119,6 +119,8 @@ function generatePMCGraph(){
 // Validation function to check the solution
 function validatePMC() {
 
+    pmcAttempts++;
+
     // Check every vertex is colored
     for (const node of cy.nodes()) {
         if (node.data("state") === 0) {
@@ -177,6 +179,12 @@ function validatePMC() {
 
     if (valid) {
         alert("🎉 Perfect Matching Cut Found!");
+        recordGamePlayed("pmc");
+        recordGameWon("pmc", pmcAttempts);
+
+        completeDailyPuzzle("pmc");
+        
+        
     } else {
         alert("❌ Invalid Perfect Matching Cut.");
     }
@@ -294,6 +302,7 @@ document.getElementById("date").textContent =
         day: "numeric"
     });
 
+pmcAttempts = 0;
 currentGraph = generatePMCGraph();
 drawGraph(currentGraph);
 initializePMC();

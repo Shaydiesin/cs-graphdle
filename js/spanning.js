@@ -503,9 +503,12 @@ function checkGuess(){
     renderSpanningHistory();
 
     if (feedback.correctEdges === cy.nodes().length - 1) {
+        recordGamePlayed("spanning");
+        recordGameWon("spanning", guessHistory.length);
+
+        completeDailyPuzzle("spanning");
 
         alert("🎉 You found the hidden spanning tree!");
-
         return;
     }
 
