@@ -172,3 +172,32 @@ function loadStatistics() {
             ? 0
             : Math.round(pmcStats.gamesWon / pmcStats.gamesPlayed * 100);
 }
+
+function hasCompletedToday(gameName) {
+    return playerData.completedDates[gameName] === getTodayString();
+}
+
+
+function showCompletedMessage(gameTitle) {
+    document.getElementById("cy").innerHTML = `
+        <div class="completed-message">
+            <div class="completed-icon">🎉</div>
+
+            <h2>Puzzle Complete!</h2>
+
+            <p class="completed-text">
+                You have already solved today's
+                <strong>${gameTitle}</strong> puzzle.
+            </p>
+
+            <p class="completed-subtext">
+                Come back tomorrow for a brand new challenge.
+            </p>
+
+            <div class="completed-countdown">
+                <span id="countdown"></span>
+            </div>
+        </div>
+    `;
+    updateCountdown();  
+}

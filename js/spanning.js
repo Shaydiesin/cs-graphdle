@@ -818,14 +818,37 @@ document.getElementById("date").textContent =
         day: "numeric"
     });
 
-spanGraph = generateSpanningGraph();
 
-drawGraph(spanGraph);
-updateTreeSize();
 
-initializeEdges();
+// spanGraph = generateSpanningGraph();
 
-window.addEventListener("resize", () => {
-    cy.resize();
-    cy.fit();
-});
+// drawGraph(spanGraph);
+// updateTreeSize();
+
+// initializeEdges();
+
+// window.addEventListener("resize", () => {
+//     cy.resize();
+//     cy.fit();
+// });
+
+
+if (hasCompletedToday("spanning")) {
+
+    showCompletedMessage("Spanning Tree");
+
+} else {
+
+    spanGraph = generateSpanningGraph();
+
+    drawGraph(spanGraph);
+    updateTreeSize();
+
+    initializeEdges();
+
+    window.addEventListener("resize", () => {
+        cy.resize();
+        cy.fit();
+    });
+
+}

@@ -23,61 +23,61 @@
 <body>
 
 
-<nav class="top-nav">
-    <a href="../index.html">🏠 Home</a>
-    |
-    <a href="../stats.html">📊 Statistics</a>
-</nav>
+    <nav class="top-nav">
+        <a href="../index.html">🏠 Home</a>
+        |
+        <a href="../stats.html">📊 Statistics</a>
+    </nav>
 
 
 
-<div class="container">
+    <div class="container">
 
 
-    <h1 id="title"></h1>
-    <h4 id="date"></h4>
+        <h1 id="title"></h1>
+        <h4 id="date"></h4>
 
-    
+        
 
-    <h2 id="problem-title">Find the Hidden Spanning Tree</h2>
+        <h2 id="problem-title">Find the Hidden Spanning Tree</h2>
 
-    <div id="instructions">
+        <div id="instructions">
 
-    <p>
-        Select <strong>exactly <span class="tree-size"></span> edges</strong> to form a 
-        <span class="def-tooltip">spanning tree
-            <span class="def-text">A subgraph that connects all vertices together without any cycles.</span>
-        </span>.
-    </p>
+        <p>
+            Select <strong>exactly <span class="tree-size"></span> edges</strong> to form a 
+            <span class="def-tooltip">spanning tree
+                <span class="def-text">A subgraph that connects all vertices together without any cycles.</span>
+            </span>.
+        </p>
 
-</div>
+    </div>
 
-<details id="feedback-guide">
+    <details id="feedback-guide">
 
-    <summary>How to Read the Feedback</summary>
+        <summary>How to Read the Feedback</summary>
 
-    <ul>
+        <ul>
 
-        <li>
-            <strong>✓ Correct Edges</strong> —
-            Number of selected edges that belong to the hidden spanning tree.
-        </li>
+            <li>
+                <strong>✓ Correct Edges</strong> —
+                Number of selected edges that belong to the hidden spanning tree.
+            </li>
 
-        <li>
-            <strong>🟢 Green Vertices</strong> —
-            Every hidden tree edge incident to that vertex has been correctly selected.
-        </li>
+            <li>
+                <strong>🟢 Green Vertices</strong> —
+                Every hidden tree edge incident to that vertex has been correctly selected.
+            </li>
 
-        <li>
-            <strong>🔴 Red Edges</strong> —
-            These edges belong to one or more cycles. A spanning tree cannot contain cycles.
-        </li>
+            <li>
+                <strong>🔴 Red Edges</strong> —
+                These edges belong to one or more cycles. A spanning tree cannot contain cycles.
+            </li>
 
-    </ul>
+        </ul>
 
-</details>
+    </details>
 
-<p id="countdown" class="countdown"></p>
+<!-- <p id="countdown" class="countdown"></p> -->
 
     <div class="spanning-layout">
 
@@ -140,9 +140,8 @@
 </div>
 
 <script src="../js/common.js"></script>
-<script src="../js/spanning.js"></script>
 <script src="../js/utils.js"></script>
-
+<script src="../js/spanning.js"></script>
 </body>
 
 <footer>

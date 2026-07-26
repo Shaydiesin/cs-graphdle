@@ -286,6 +286,33 @@ function initializePMC() {
 /////////MAIN///////////
 ////////////////////////
 
+// const launchDatePMC = new Date("2026-07-17");
+
+// // Code to display puzzle number
+// document.getElementById("title").textContent =
+//     "CS-Graphdle PMC #" + getPuzzleNumber(launchDatePMC);
+
+// const today_date = new Date();
+
+// // Code to display the date
+// document.getElementById("date").textContent =
+//     today_date.toLocaleDateString(undefined, {
+//         year: "numeric",
+//         month: "long",
+//         day: "numeric"
+//     });
+
+// pmcAttempts = 0;
+// currentGraph = generatePMCGraph();
+// drawGraph(currentGraph);
+// initializePMC();
+
+// window.addEventListener("resize", () => {
+//     cy.resize();
+//     cy.fit();
+// });
+
+
 const launchDatePMC = new Date("2026-07-17");
 
 // Code to display puzzle number
@@ -302,13 +329,41 @@ document.getElementById("date").textContent =
         day: "numeric"
     });
 
-pmcAttempts = 0;
-currentGraph = generatePMCGraph();
-drawGraph(currentGraph);
-initializePMC();
+if (hasCompletedToday("pmc")) {
 
-window.addEventListener("resize", () => {
-    cy.resize();
-    cy.fit();
-});
+    document.getElementById("cy").innerHTML = `
+        <div class="completed-message">
+            <div class="completed-icon">🎉</div>
 
+            <h2>Puzzle Complete!</h2>
+
+            <p class="completed-text">
+                You have already solved today's
+                <strong>Perfect Matching Cut</strong> puzzle.
+            </p>
+
+            <p class="completed-subtext">
+                Come back tomorrow for a brand new challenge.
+            </p>
+
+            <div class="completed-countdown">
+                <span id="countdown"></span>
+            </div>
+        </div>
+    `;
+    updateCountdown();
+
+} else {
+
+    pmcAttempts = 0;
+
+    currentGraph = generatePMCGraph();
+    drawGraph(currentGraph);
+    initializePMC();
+
+    window.addEventListener("resize", () => {
+        cy.resize();
+        cy.fit();
+    });
+
+}
