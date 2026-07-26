@@ -6,6 +6,9 @@ let rng = Math.random;
 
 const today = new Date().toISOString().slice(0, 10);
 const seed = xmur3(today);
+console.log(seed);
+console.log(today);
+
 rng = mulberry32(seed());
 
 // Hashing the Seed
@@ -152,5 +155,30 @@ function getPuzzleNumber(launch) {
 
     return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
 }
+
+function updateCountdown() {
+
+    const now = new Date();
+
+    // Next UTC midnight
+    const nextReset = new Date();
+    nextReset.setUTCHours(24, 0, 0, 0);
+
+    const diff = nextReset - now;
+
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    const countdown = document.getElementById("countdown");
+
+    if (countdown) {
+        countdown.textContent =
+            `⏳ Next puzzle in ${hours}h ${minutes}m ${seconds}s`;
+    }
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
 
 
