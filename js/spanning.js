@@ -384,6 +384,9 @@ function validateSpan(){
 // Reset Selection
 function resetSpan(){
 
+    if (spanningSolutionRevealed || spanningSolved)
+        return;
+
     cy.edges().forEach(edge => {
 
         edge.data("selected", false);
@@ -800,16 +803,23 @@ function hideLargeGuess(){
 }
 
 
-function revealSpanningSolution() {
-
-    if (spanningSolutionRevealed)
-        return;
+function revealSpanningSolution(confirmReveal = true) {
 
     if (spanningSolved)
         return;
 
-    if (!confirm("Reveal today's Hidden Spanning Tree solution? This will end the puzzle."))
-        return;
+    if (confirmReveal) {
+
+        if (spanningSolutionRevealed)
+            return;
+
+        if (!confirm("Reveal today's Hidden Spanning Tree solution? This will end the puzzle."))
+            return;
+
+        spanningSolutionRevealed = true;
+
+        revealDailyPuzzle("spanning");
+    }
 
     // Clear current selection
     cy.edges().forEach(edge => {
@@ -832,17 +842,11 @@ function revealSpanningSolution() {
         updateEdgeStyle(edge);
     });
 
-    // Update the count of selected edges
     updateSelectedCount();
 
-    // Optional: disable interaction
+    // Disable interaction
     cy.edges().off("tap");
-
     spanningSolutionRevealed = true;
-
-    revealDailyPuzzle("spanning");
-
-    // Reveal spanning solution
 }
 
 ////////////////////////
@@ -881,6 +885,9 @@ document.getElementById("date").textContent =
 //     cy.fit();
 // });
 
+
+spanGraph = generateSpanningGraph();
+
 if (hasRevealedToday("spanning")) {
 
     document.getElementById("reveal-button").style.display = "none";
@@ -889,11 +896,24 @@ if (hasRevealedToday("spanning")) {
 
 if (hasCompletedToday("spanning") ||  hasRevealedToday("spanning")) {
 
-    showCompletedMessage("Spanning Tree");
+    showCompletedMessage(
+    "Hidden Spanning Tree",
+    "Show Today's Solution",
+    () => {
+
+        document.getElementById("graph-container").innerHTML =
+            `<div id="cy"></div>`;
+
+        drawGraph(spanGraph);
+        initializeEdges();
+
+        revealSpanningSolution(false);
+    }
+);
 
 } else {
 
-    spanGraph = generateSpanningGraph();
+    
 
     drawGraph(spanGraph);
     updateTreeSize();

@@ -203,6 +203,8 @@ function validatePMC() {
 
 // Reset functionality
 function resetPMCGraph() {
+    if (pmcSolutionRevealed || pmcSolved)
+        return;
 
     // Reset all nodes
     cy.nodes().forEach(node => {
@@ -298,16 +300,26 @@ function initializePMC() {
 }
 
 
-function revealPMCSolution() {
-
-    if (pmcSolutionRevealed)
-        return;
+function revealPMCSolution(confirmReveal = true) {
 
     if (pmcSolved)
         return;
+    
+    if (confirmReveal)
+    {   
 
-    if (!confirm("Reveal today's Perfect Matching Cut solution? This will end the puzzle."))
-        return;
+        if (pmcSolutionRevealed)
+            return;
+
+
+        if (!confirm("Reveal today's Perfect Matching Cut solution? This will end the puzzle."))
+            return;
+
+        pmcSolutionRevealed = true;
+        revealDailyPuzzle("pmc");
+    }
+
+    
 
     // Reset everything
     cy.nodes().forEach(node => {
@@ -394,13 +406,29 @@ document.getElementById("date").textContent =
         day: "numeric"
     });
 
+
+pmcAttempts = 0;
+
+currentGraph = generatePMCGraph();
+
 if (hasCompletedToday("pmc") ||  hasRevealedToday("pmc")) {
-    showCompletedMessage("pmc");
+    showCompletedMessage(
+    "Perfect Matching Cut",
+    "Show Today's Solution",
+    () => {
+
+        document.getElementById("graph-container").innerHTML =
+            `<div id="cy"></div>`;
+
+        drawGraph(currentGraph);
+        initializePMC();
+
+        revealPMCSolution(false);
+    }
+);
 } else {
 
-    pmcAttempts = 0;
-
-    currentGraph = generatePMCGraph();
+    
     drawGraph(currentGraph);
     initializePMC();
 

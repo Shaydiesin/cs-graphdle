@@ -183,8 +183,33 @@ function hasCompletedToday(gameName) {
 }
 
 
-function showCompletedMessage(gameTitle) {
-    document.getElementById("cy").innerHTML = `
+// function showCompletedMessage(gameTitle) {
+//     document.getElementById("cy").innerHTML = `
+//         <div class="completed-message">
+//             <div class="completed-icon">🎉</div>
+
+//             <h2>Puzzle Complete!</h2>
+
+//             <p class="completed-text">
+//                 You have already completed today's
+//                 <strong>${gameTitle}</strong> puzzle.
+//             </p>
+
+//             <button onclick="showSpanningSolution()">
+//                 Show Today's Solution
+//             </button>
+
+//             <div class="completed-countdown">
+//                 <span id="countdown"></span>
+//             </div>
+//         </div>
+//     `;
+//     updateCountdown();  
+// }
+
+function showCompletedMessage(gameTitle, buttonText, callback) {
+
+    document.getElementById("graph-container").innerHTML = `
         <div class="completed-message">
             <div class="completed-icon">🎉</div>
 
@@ -195,16 +220,21 @@ function showCompletedMessage(gameTitle) {
                 <strong>${gameTitle}</strong> puzzle.
             </p>
 
-            <p class="completed-subtext">
-                Come back tomorrow for a brand new challenge.
-            </p>
+            <button id="completed-action">
+                ${buttonText}
+            </button>
 
             <div class="completed-countdown">
                 <span id="countdown"></span>
             </div>
         </div>
     `;
-    updateCountdown();  
+
+    document
+        .getElementById("completed-action")
+        .addEventListener("click", callback);
+
+    updateCountdown();
 }
 
 
