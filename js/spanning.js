@@ -397,12 +397,6 @@ function resetSpan(){
 // Function to score the guess
 function scoreGuess(){
 
-    // ========== LOGGING THE ACTUAL SPANNIGN TREE=====
-    console.log("Hidden Spanning Tree:");
-
-    spanGraph.hiddenTree.forEach(([u, v]) => {
-        console.log(`${u} -- ${v}`);
-    });
 
     // ---------- Hidden tree ----------
 
@@ -517,8 +511,6 @@ function checkGuess(){
         celebrateWin();
         return;
     }
-
-    // console.log(feedback);
 
     // renderHistory();
 

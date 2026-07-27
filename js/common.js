@@ -6,9 +6,6 @@ let rng = Math.random;
 
 const today = new Date().toISOString().slice(0, 10);
 const seed = xmur3(today);
-console.log(seed);
-console.log(today);
-
 rng = mulberry32(seed());
 
 // Hashing the Seed
