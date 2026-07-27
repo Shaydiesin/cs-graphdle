@@ -21,6 +21,11 @@ function loadPlayerData() {
         //     pmc: false
         // },
 
+        revealedDates: {
+            spanning: null,
+            pmc: null
+        },
+
         completedDates: {
             spanning: null,
             pmc: null
@@ -200,4 +205,19 @@ function showCompletedMessage(gameTitle) {
         </div>
     `;
     updateCountdown();  
+}
+
+
+function revealDailyPuzzle(gameName) {
+
+    playerData.revealedDates[gameName] = getTodayString();
+
+    savePlayerData();
+
+}
+
+function hasRevealedToday(gameName) {
+
+    return playerData.revealedDates[gameName] === getTodayString();
+
 }

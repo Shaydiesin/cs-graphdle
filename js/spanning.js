@@ -3,6 +3,8 @@ let guessHistory = [];
 let maxGuesses = 20;
 let hoverCy = null;
 let spanningSolved = false;
+let spanningSolutionRevealed = false;
+
 
 function generateSpanningGraph(){
 
@@ -491,6 +493,9 @@ function checkGuess(){
     if (spanningSolved)
         return;
 
+    if (revealSpanningSolution)
+        return;
+
     if(!validateSpan())
         return;
 
@@ -794,6 +799,52 @@ function hideLargeGuess(){
 
 }
 
+
+function revealSpanningSolution() {
+
+    if (spanningSolutionRevealed)
+        return;
+
+    if (spanningSolved)
+        return;
+
+    if (!confirm("Reveal today's Hidden Spanning Tree solution? This will end the puzzle."))
+        return;
+
+    // Clear current selection
+    cy.edges().forEach(edge => {
+        edge.data("selected", false);
+        edge.data("cycle", false);
+        updateEdgeStyle(edge);
+    });
+
+    // Select every edge in the solution
+    spanGraph.hiddenTree.forEach(([u, v]) => {
+
+        const edge = cy.$(`
+            edge[source="${u}"][target="${v}"],
+            edge[source="${v}"][target="${u}"]
+        `);
+
+        edge.data("selected", true);
+        edge.data("cycle", false);
+
+        updateEdgeStyle(edge);
+    });
+
+    // Update the count of selected edges
+    updateSelectedCount();
+
+    // Optional: disable interaction
+    cy.edges().off("tap");
+
+    spanningSolutionRevealed = true;
+
+    revealDailyPuzzle("spanning");
+
+    // Reveal spanning solution
+}
+
 ////////////////////////
 /////////MAIN///////////
 ////////////////////////
@@ -831,7 +882,7 @@ document.getElementById("date").textContent =
 // });
 
 
-if (hasCompletedToday("spanning")) {
+if (hasCompletedToday("spanning") ||  hasRevealedToday("spanning")) {
 
     showCompletedMessage("Spanning Tree");
 

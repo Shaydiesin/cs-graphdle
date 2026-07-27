@@ -6,6 +6,7 @@ let hintedVertices = [];
 let hintUsed = false;
 let pmcAttempts = 0;
 let pmcSolved = false;
+let pmcSolutionRevealed = false;
 
 // Graph generator
 function generatePMCGraph(){
@@ -123,6 +124,9 @@ function validatePMC() {
     if (pmcSolved)
         return;
 
+    if (pmcSolutionRevealed)
+        return;
+
     pmcAttempts++;
 
     // Check every vertex is colored
@@ -236,6 +240,12 @@ function showHint() {
     if (hintUsed)
         return;
 
+    if (pmcSolutionRevealed)
+        return;
+
+    if (pmcSolved)
+        return;
+
     hintUsed = true;
 
     let [u, v] = currentGraph.solution[
@@ -287,6 +297,51 @@ function initializePMC() {
     });
 }
 
+
+function revealPMCSolution() {
+
+    if (pmcSolutionRevealed)
+        return;
+
+    if (pmcSolved)
+        return;
+
+    if (!confirm("Reveal today's Perfect Matching Cut solution? This will end the puzzle."))
+        return;
+
+    // Reset everything
+    cy.nodes().forEach(node => {
+        node.data("state", 0);
+        updateNodeColor(node);
+    });
+
+    // Reveal every matching edge
+    currentGraph.solution.forEach(([u, v]) => {
+
+        const nodeU = cy.getElementById(String(u));
+        const nodeV = cy.getElementById(String(v));
+
+        nodeU.data("state", 1);   // Red
+        nodeV.data("state", 2);   // Blue
+
+        updateNodeColor(nodeU);
+        updateNodeColor(nodeV);
+
+        cy.$(`edge[source="${u}"][target="${v}"],
+              edge[source="${v}"][target="${u}"]`)
+          .style({
+              "line-color": "green",
+              "width": 4
+          });
+    });
+
+    cy.nodes().off("tap");
+
+    pmcSolutionRevealed = true;
+
+    revealDailyPuzzle("pmc");
+}
+
 ////////////////////////
 /////////MAIN///////////
 ////////////////////////
@@ -334,7 +389,7 @@ document.getElementById("date").textContent =
         day: "numeric"
     });
 
-if (hasCompletedToday("pmc")) {
+if (hasCompletedToday("pmc") ||  hasRevealedToday("pmc")) {
     showCompletedMessage("pmc");
 } else {
 
