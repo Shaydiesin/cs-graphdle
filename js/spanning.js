@@ -881,6 +881,11 @@ document.getElementById("date").textContent =
 //     cy.fit();
 // });
 
+if (hasRevealedToday("spanning")) {
+
+    document.getElementById("reveal-button").style.display = "none";
+
+}
 
 if (hasCompletedToday("spanning") ||  hasRevealedToday("spanning")) {
 

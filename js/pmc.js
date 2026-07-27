@@ -372,6 +372,11 @@ function revealPMCSolution() {
 //     cy.fit();
 // });
 
+if (hasRevealedToday("pmc")) {
+
+    document.getElementById("reveal-button").style.display = "none";
+
+}
 
 const launchDatePMC = new Date("2026-07-17");
 

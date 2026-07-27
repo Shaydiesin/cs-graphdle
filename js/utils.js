@@ -191,7 +191,7 @@ function showCompletedMessage(gameTitle) {
             <h2>Puzzle Complete!</h2>
 
             <p class="completed-text">
-                You have already solved today's
+                You have already completed today's
                 <strong>${gameTitle}</strong> puzzle.
             </p>
 
