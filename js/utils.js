@@ -5,7 +5,18 @@ function loadPlayerData() {
     const saved = localStorage.getItem(STORAGE_KEY);
 
     if (saved) {
-        return JSON.parse(saved);
+
+        data = JSON.parse(saved);
+
+        if (!data.revealedDates) {
+            data.revealedDates = {
+                spanning: null,
+                pmc: null
+            };
+        }
+
+        return data;
+        
     }
 
     return {
