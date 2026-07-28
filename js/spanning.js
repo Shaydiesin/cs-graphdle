@@ -496,7 +496,7 @@ function checkGuess(){
     if (spanningSolved)
         return;
 
-    if (revealSpanningSolution)
+    if (spanningSolutionRevealed)
         return;
 
     if(!validateSpan())
