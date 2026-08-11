@@ -128,7 +128,7 @@ function completeDailyPuzzle(gameName) {
 
             if (playerData.lastCompletedDate === yesterdayString) {
                 playerData.streak++;
-            } else if (playerData.lastCompletedDate !== today) {
+            } else {
                 playerData.streak = 1;
             }
 
@@ -146,9 +146,43 @@ function completeDailyPuzzle(gameName) {
 }   
 
 
+function updateStreak() {
+    const today = getTodayString();
+
+    // Already completed both games today.
+    // The stored streak is already correct.
+    if (playerData.lastCompletedDate === today) {
+        return;
+    }
+
+    const yesterday = new Date();
+    yesterday.setUTCDate(yesterday.getUTCDate() - 1);
+
+    const yesterdayString =
+        yesterday.toISOString().split("T")[0];
+
+    /*
+     * If both games were completed yesterday,
+     * the current streak is still valid today.
+     */
+    if (playerData.lastCompletedDate === yesterdayString) {
+        return;
+    }
+
+    /*
+     * The player has missed a full day,
+     * so the streak is now broken.
+     */
+    playerData.streak = 0;
+
+    savePlayerData();
+}
+
 function loadStatistics() {
 
     playerData = loadPlayerData();
+
+    updateStreak();
 
     const spanStats = playerData.stats.spanning;
     const pmcStats = playerData.stats.pmc;
